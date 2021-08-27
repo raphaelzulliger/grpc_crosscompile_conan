@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package gRPC.repro;
+
+service ITest {
+  rpc DoPlan (Properties) returns (Result) {}
+}
+
+message Properties {
+  repeated double destinations = 1;
+}
+
+message Result {
+  uint32 result = 1;
+}

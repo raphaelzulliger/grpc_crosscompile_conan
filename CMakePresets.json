@@ -1,0 +1,59 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "hidden": true,
+            "displayName": "default config",
+            "description": "Default build using Ninja generator",
+            "generator": "Ninja",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "toolset": {
+                "value": "host=x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "debug-config",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-default",
+            "inherits": "default",
+            "hidden": true,
+            "displayName": "Linux default",
+            "description": "Linux default"
+        },
+        {
+            "name": "linux-arm-debug",
+            "inherits": [
+                "linux-default",
+                "debug-config"
+            ],
+            "displayName": "Linux ARM Debug Config",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE" : "${workspaceFolder}/cmake/crosstoolchain.cmake"
+            }
+        },
+        {
+            "name": "linux-debug",
+            "inherits": [
+                "linux-default",
+                "debug-config"
+            ],
+            "displayName": "Linux Debug Config"
+        }
+    ]
+}
