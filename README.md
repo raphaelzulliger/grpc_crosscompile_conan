@@ -37,17 +37,23 @@ conan profile new default --detect
 ## Configure and Build
 
 ```sh
+# Conan install (install dependencies)
+conan install . -pr:b default -pr:h grpc_repro --build missing -if build/Debug
 # Configure
 cmake -DCMAKE_TOOLCHAIN_FILE=cmake/crosstoolchain.cmake -DCMAKE_BUILD_TYPE=Debug -H. -Bbuild/Debug -G Ninja
 # Build
 cmake --build build/Debug
 ```
 
-## Project structure
+## High level view
 
-- CMake drives the whole build process
+- Conan
+  - Conan handles dependencies (gRPC & Co)
+  - Downloads pre-built `x64` binaries for Linux of gRPC & Co.
+  - Downloads recipes and builds (cross compilation) gRPC & CO for the embedded target
+  - Places CMake modules into this projects' build folder
 - CMake configuration:
-  - Performs `conan intall` to install dependencies (`gRPC` in this case)
-  - Since no pre-built binaries of `gRPC` are available, these will be built (may take some time!)
+  - Uses the CMake modules being installed by Conan just before
+  - These CMake modulees help CMake to find the `protoc` binary
 - CMake build:
-  - Uses `protobuf` and `gRPC` CMake modules to compile `.proto` files
+  - Uses `protobuf` and `gRPC` binaries to compile `.proto` files
