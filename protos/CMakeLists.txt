@@ -4,19 +4,17 @@ set(PROTO_FILES
     interface.proto
 )
 
+# Notice the `_BUILD` suffix, as documented https://docs.conan.io/en/1.39/reference/conanfile/tools/cmake/cmakedeps.html#build-context-suffix
+find_package(protobuf_BUILD CONFIG REQUIRED)
+find_package(gRPC_BUILD CONFIG REQUIRED)
+get_target_property(grpc_cpp_plugin_location gRPC::grpc_cpp_plugin LOCATION)
+
+# find_package(protobuf CONFIG REQUIRED)
+# find_package(gRPC CONFIG REQUIRED)
+
 # protobuf source files go into the lib just like any other CPP source file
 add_library(libinterface STATIC
     ${PROTO_FILES})
-
-target_include_directories(libinterface
-    PUBLIC
-        ${CMAKE_CURRENT_BINARY_DIR}
-)
-
-# Add globally available libraries
-target_link_libraries(libinterface
-        gRPC::grpc++
-)
 
 # compile the message types
 protobuf_generate(
@@ -37,3 +35,13 @@ protobuf_generate(
     PLUGIN
         "protoc-gen-grpc=${grpc_cpp_plugin_location}"
 )
+
+# target_include_directories(libinterface
+#     PUBLIC
+#         ${CMAKE_CURRENT_BINARY_DIR}
+# )
+
+# # Add globally available libraries
+# target_link_libraries(libinterface
+#         gRPC::grpc++
+# )
