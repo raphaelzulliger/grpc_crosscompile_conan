@@ -40,9 +40,10 @@ conan profile new default --detect
 # Conan install (install dependencies)
 conan install . -pr:b default -pr:h grpc_repro --build missing -if build/Debug
 # Configure
-cmake -DCMAKE_TOOLCHAIN_FILE=cmake/crosstoolchain.cmake -DCMAKE_BUILD_TYPE=Debug -H. -Bbuild/Debug -G Ninja
+cmake -DCMAKE_TOOLCHAIN_FILE=build/Debug/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug -H. -Bbuild/Debug -G Ninja
 # Build
 cmake --build build/Debug
+
 ```
 
 ## High level view
