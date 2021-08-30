@@ -10,8 +10,4 @@ set(
 # Make sure the `.cmake` files for the individual packages, as installed by Conan, are found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
-find_package(protobuf CONFIG REQUIRED)
-find_package(gRPC CONFIG REQUIRED)
-get_target_property(grpc_cpp_plugin_location gRPC::grpc_cpp_plugin LOCATION)
-
 add_subdirectory(protos)
