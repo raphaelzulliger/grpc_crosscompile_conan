@@ -4,10 +4,28 @@ set(PROTO_FILES
     interface.proto
 )
 
-# Notice the `_BUILD` suffix, as documented https://docs.conan.io/en/1.39/reference/conanfile/tools/cmake/cmakedeps.html#build-context-suffix
-find_package(protobuf_BUILD CONFIG REQUIRED)
-find_package(gRPC_BUILD CONFIG REQUIRED)
-get_target_property(grpc_cpp_plugin_location gRPC::grpc_cpp_plugin LOCATION)
+# # Notice the `_BUILD` suffix, as documented https://docs.conan.io/en/1.39/reference/conanfile/tools/cmake/cmakedeps.html#build-context-suffix
+# find_package(protobuf REQUIRED)
+# find_package(gRPC REQUIRED)
+# if(NOT TARGET gRPC::grpc_cpp_plugin)
+#     if(CMAKE_CROSSCOMPILING)
+#         find_program(GRPC_CPP_PLUGIN_PROGRAM
+#             NAMES grpc_cpp_plugin
+#             PATHS ENV
+#             PATH NO_DEFAULT_PATH)
+#     else()
+#         find_program(GRPC_CPP_PLUGIN_PROGRAM
+#             NAMES grpc_cpp_plugin
+#             PATHS "${CMAKE_CURRENT_LIST_DIR}/../../bin/"
+#             NO_DEFAULT_PATH)
+#     endif()
+
+#     get_filename_component(GRPC_CPP_PLUGIN_PROGRAM "${GRPC_CPP_PLUGIN_PROGRAM}" ABSOLUTE)
+
+#     add_executable(gRPC::grpc_cpp_plugin IMPORTED)
+#     set_property(TARGET gRPC::grpc_cpp_plugin PROPERTY IMPORTED_LOCATION ${GRPC_CPP_PLUGIN_PROGRAM})
+# endif()
+# get_target_property(grpc_cpp_plugin_location gRPC::grpc_cpp_plugin LOCATION)
 
 # find_package(protobuf CONFIG REQUIRED)
 # find_package(gRPC CONFIG REQUIRED)
@@ -15,6 +33,7 @@ get_target_property(grpc_cpp_plugin_location gRPC::grpc_cpp_plugin LOCATION)
 # protobuf source files go into the lib just like any other CPP source file
 add_library(libinterface STATIC
     ${PROTO_FILES})
+
 
 # compile the message types
 protobuf_generate(
